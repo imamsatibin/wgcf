@@ -19,12 +19,14 @@ jobs:
         run: |
           GOOS=linux GOARCH=arm64 go build -o wgcf
 
-      - name: Compress binary
+      - name: Compress binary (zip)
         run: |
-          tar -czvf wgcf-linux-arm64.tar.gz wgcf
+          zip wgcf-linux-arm64.zip wgcf
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload ZIP to Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: wgcf-linux-arm64
-          path: wgcf-linux-arm64.tar.gz
+          tag_name: "arm64-${{ github.run_number }}"
+          files: wgcf-linux-arm64.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
