@@ -1,0 +1,26 @@
+name: Build wgcf ARM64 (manual)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-arm64:
+    runs-on: ubuntu-24.04-arm64
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Go (latest stable)
+        uses: actions/setup-go@v5
+        with:
+          go-version: "stable"
+
+      - name: Build
+        run: |
+          go build -o wgcf
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wgcf-linux-arm64
+          path: wgcf
